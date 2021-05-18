@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Anglais",
+        "price": 10,
+        "place": "Ecole"
+    },
+    {
+        "name": "Java",
+        "price": 25,
+        "place": "Salle 2"
+    },
+    {
+        "name": "Théâtre",
+        "price": 34,
+        "place": "Salle 3"
+    }
+]

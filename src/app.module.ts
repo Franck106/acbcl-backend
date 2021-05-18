@@ -15,6 +15,7 @@ import { RightAssignment } from '@model/entities/right-assignment.entity';
 import { Role } from '@model/entities/role.entity';
 import { Schedule } from '@model/entities/schedule.entity';
 import { User } from '@model/entities/user.entity';
+import { ActivityModule } from './activity/activity.module';
 
 const envFilePath = [`.env.${process.env.NODE_ENV}`];
 
@@ -32,7 +33,6 @@ const envFilePath = [`.env.${process.env.NODE_ENV}`];
     }),
     TypeOrmModule.forFeature([
       Absence,
-      Activity,
       Credentials,
       Group,
       Right,
@@ -41,6 +41,7 @@ const envFilePath = [`.env.${process.env.NODE_ENV}`];
       Schedule,
       User,
     ]),
+    ActivityModule,
   ],
   controllers: [AppController],
   providers: [AppService],

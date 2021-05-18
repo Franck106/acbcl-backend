@@ -9,6 +9,12 @@ export class Activity {
     @Column()
     name: string;
 
+    @Column()
+    price: number;
+
+    @Column()
+    place: string;
+
     @OneToMany(() => Schedule, schedule => schedule.activity)
     schedules: Schedule[];
 }
