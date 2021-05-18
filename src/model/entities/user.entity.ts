@@ -1,3 +1,5 @@
+import * as bcrypt from 'bcrypt';
+
 import {
   Column,
   CreateDateColumn,
@@ -32,6 +34,18 @@ export class User {
   @Column()
   birthDate: Date;
 
+  @Column()
+  address: string;
+
+  @Column()
+  postCode: string;
+
+  @Column()
+  city: string;
+
+  @Column()
+  phone: string;
+
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   createDateTime: Date;
 
@@ -58,4 +72,8 @@ export class User {
 
   @OneToMany(() => Absence, absence => absence.participant)
   absences: Absence[];
+
+  public checkPassword(password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.credentials.hashPassword);
+  }
 }
