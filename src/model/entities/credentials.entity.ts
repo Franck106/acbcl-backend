@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class Credentials {
@@ -13,5 +14,11 @@ export class Credentials {
   constructor(login: string, paswword: string) {
     this.login = login;
     this.hashPassword = paswword;
+  }
+
+
+  @BeforeInsert()
+  private async createPasswordHash() {
+    this.hashPassword = await bcrypt.hash(this.hashPassword, 10);
   }
 }

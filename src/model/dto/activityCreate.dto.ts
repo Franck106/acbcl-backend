@@ -6,15 +6,4 @@ export class ActivityCreateDTO implements IActivityCreate {
   price: number;
   place: string;
 
-  public static from(dto: Partial<ActivityCreateDTO>) {
-    return Object.assign(new ActivityCreateDTO(), dto);
-  }
-
-  public static fromEntity(entity: Activity) {
-    return this.from({
-      name: entity.name,
-      price: entity.price,
-      place: entity.place,
-    });
-  }
 }
