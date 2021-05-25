@@ -1,20 +1,35 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Schedule } from "./schedule.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Event } from './event.entity';
+import { Photo } from './photo.entity';
 
 @Entity()
 export class Activity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    price: number;
+  @Column()
+  price: number;
 
-    @Column()
-    place: string;
+  @Column()
+  place: string;
 
-    @OneToMany(() => Schedule, schedule => schedule.activity)
-    schedules: Schedule[];
+  @Column({ nullable: true })
+  description: string;
+
+  @OneToMany(
+    () => Event,
+    event => event.activity,
+  )
+  events: Event[];
+
+  @OneToMany(
+    () => Photo,
+    photo => photo.activity,
+    { eager: true, cascade: true },
+  )
+  photos: Photo[];
 }

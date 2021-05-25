@@ -1,54 +1,22 @@
 import * as bcrypt from 'bcrypt';
-
 import {
-  Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
 } from 'typeorm';
+
 import { Absence } from './absence.entity';
 import { Credentials } from './credentials.entity';
 import { Group } from './group.entity';
 import { Role } from './role.entity';
-import { Schedule } from './schedule.entity';
+import { Event } from './event.entity';
+import { Person } from './person.entity';
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column()
-  firstName: string;
-
-  @Column()
-  lastName: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  birthDate: Date;
-
-  @Column()
-  address: string;
-
-  @Column()
-  postCode: string;
-
-  @Column()
-  city: string;
-
-  @Column()
-  phone: string;
-
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  createDateTime: Date;
-
+export class User extends Person {
   @OneToOne(() => Credentials, { cascade: true, eager: true })
   @JoinColumn()
   credentials: Credentials;
@@ -66,11 +34,17 @@ export class User {
   @JoinTable()
   roles: Role[];
 
-  @ManyToMany(() => Schedule, schedule => schedule.participants)
+  @ManyToMany(
+    () => Event,
+    event => event.users,
+  )
   @JoinTable()
-  schedules: Schedule[];
+  events: Event[];
 
-  @OneToMany(() => Absence, absence => absence.participant)
+  @OneToMany(
+    () => Absence,
+    absence => absence.participant,
+  )
   absences: Absence[];
 
   public checkPassword(password: string): Promise<boolean> {
