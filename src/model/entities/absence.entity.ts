@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Schedule } from "./schedule.entity";
+import { Event } from "./event.entity";
 import { User } from "./user.entity";
 
 @Entity()
@@ -13,6 +13,6 @@ export class Absence {
     @ManyToOne(() => User, user => user.absences)
     participant: User;
 
-    @ManyToOne(() => Schedule, schedule => schedule.absences)
-    schedule: Schedule;
+    @ManyToOne(() => Event, schedule => schedule.absences)
+    event: Event;
 }

@@ -14,7 +14,9 @@ export class ActivityService {
   ) {}
 
   public async getAll(): Promise<ActivityResponseDTO[]> {
-    const activities = await this.activityRepository.find();
+    const activities = await this.activityRepository.find({
+      relations: ['events'],
+    });
     return activities.map(activityDTO =>
       ActivityResponseDTO.fromEntity(activityDTO),
     );
@@ -25,5 +27,9 @@ export class ActivityService {
       Object.assign(new Activity(), dto),
     );
     return ActivityResponseDTO.fromEntity(activity);
+  }
+
+  public async removeActivity(id: string) {
+    return this.activityRepository.delete(id);
   }
 }

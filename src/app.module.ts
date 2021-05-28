@@ -16,10 +16,11 @@ import { Group } from '@model/entities/group.entity';
 import { Right } from '@model/entities/right.entity';
 import { RightAssignment } from '@model/entities/right-assignment.entity';
 import { Role } from '@model/entities/role.entity';
-import { Schedule } from '@model/entities/schedule.entity';
 import { ActivityModule } from './activity/activity.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { CalendarModule } from './calendar/calendar.module';
+import { Photo } from '@model/entities/photo.entity';
 
 const envFilePath = [`.env.${process.env.NODE_ENV}`];
 
@@ -42,7 +43,7 @@ const envFilePath = [`.env.${process.env.NODE_ENV}`];
       Right,
       RightAssignment,
       Role,
-      Schedule,
+      Photo,
     ]),
     WinstonModule.forRoot({
       level: 'info',
@@ -59,6 +60,7 @@ const envFilePath = [`.env.${process.env.NODE_ENV}`];
     ActivityModule,
     AuthModule,
     UserModule,
+    CalendarModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_FILTER, useClass: ErrorFilter }],
