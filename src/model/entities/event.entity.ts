@@ -1,15 +1,18 @@
 import {
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { Absence } from './absence.entity';
 import { Activity } from './activity.entity';
 import { Guest } from './guest.entity';
+import { Subscription } from './subscription.entity';
 import { User } from './user.entity';
 
 @Entity()
@@ -23,8 +26,14 @@ export class Event {
   @Column()
   end: Date;
 
+  @Column()
+  isAllDay: boolean;
+
+  @Column()
+  title: string;
+
   @Column({ nullable: true })
-  summary: string;
+  description: string;
 
   @Column({ nullable: true })
   location: string;
@@ -32,7 +41,9 @@ export class Event {
   @ManyToMany(
     () => User,
     user => user.events,
+    { cascade: true, eager: true },
   )
+  @JoinTable()
   users: User[];
 
   @OneToMany(
@@ -53,4 +64,10 @@ export class Event {
     { eager: true },
   )
   activity: Activity;
+
+  @OneToOne(
+    () => Subscription,
+    subscription => subscription.event,
+  )
+  subscriptions: Subscription[];
 }

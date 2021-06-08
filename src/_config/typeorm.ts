@@ -12,6 +12,8 @@ import { Event } from '@model/entities/event.entity';
 import { User } from '@model/entities/user.entity';
 import { Photo } from '@model/entities/photo.entity';
 import { Guest } from '@model/entities/guest.entity';
+import { Subscription } from '@model/entities/subscription.entity';
+import { Kid } from '@model/entities/kid.entity';
 
 export const typeOrmConfigFactory = (
   config: ConfigService,
@@ -34,6 +36,8 @@ export const typeOrmConfigFactory = (
     Absence,
     Photo,
     Guest,
+    Subscription,
+    Kid,
   ],
   synchronize: true,
   ssl: config.get('NODE_ENV') === 'production',

@@ -1,6 +1,5 @@
 import { Guest } from '@model/entities/guest.entity';
 import { IGuestResponse } from '@model/types/guestResponse';
-import { EventResponseDTO } from './eventResponse.dto';
 
 export class GuestResponseDTO implements IGuestResponse {
   id: string;
@@ -13,7 +12,8 @@ export class GuestResponseDTO implements IGuestResponse {
   city: string;
   phone: string;
   createdDate: Date;
-  event: EventResponseDTO;
+  absenceId?: string;
+  eventId: string;
 
   public static from(dto: Partial<GuestResponseDTO>) {
     return Object.assign(new GuestResponseDTO(), dto);
@@ -31,7 +31,8 @@ export class GuestResponseDTO implements IGuestResponse {
       city: entity.city,
       phone: entity.phone,
       createdDate: entity.createDateTime,
-      event: entity.event,
+      absenceId: entity.absence ? entity.absence.id : null,
+      eventId: entity.event ? entity.event.id : "",
     });
   }
 }

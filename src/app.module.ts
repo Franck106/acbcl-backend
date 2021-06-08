@@ -8,8 +8,6 @@ import * as winston from 'winston';
 
 import { ErrorFilter } from './error.filter';
 import { validationSchema } from '@config/schema';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { Absence } from '@model/entities/absence.entity';
 import { Credentials } from '@model/entities/credentials.entity';
 import { Group } from '@model/entities/group.entity';
@@ -62,7 +60,6 @@ const envFilePath = [`.env.${process.env.NODE_ENV}`];
     UserModule,
     CalendarModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, { provide: APP_FILTER, useClass: ErrorFilter }],
+  providers: [{ provide: APP_FILTER, useClass: ErrorFilter }],
 })
 export class AppModule {}

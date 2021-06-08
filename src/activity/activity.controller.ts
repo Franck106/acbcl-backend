@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 
 import { ActivityService } from './activity.service';
 import { ActivityResponseDTO } from '@model/dto/activityResponse.dto';
@@ -13,11 +21,25 @@ export class ActivityController {
     return this.activityService.getAll();
   }
 
+  @Get(':id')
+  public async getActivityById(
+    @Param('id') id: string,
+  ): Promise<ActivityResponseDTO> {
+    return this.activityService.getById(id);
+  }
+
   @Post()
   public async addActivity(
-    @Body() activityCreate: ActivityCreateDTO,
+    @Body() dto: ActivityCreateDTO,
   ): Promise<ActivityResponseDTO> {
-    return this.activityService.saveOne(activityCreate);
+    return this.activityService.create(dto);
+  }
+
+  @Put()
+  public async modifyActivity(
+    @Body() dto: ActivityResponseDTO,
+  ): Promise<ActivityResponseDTO> {
+    return this.activityService.update(dto);
   }
 
   @Delete(':id')

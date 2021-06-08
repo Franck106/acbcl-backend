@@ -14,6 +14,7 @@ import { Group } from './group.entity';
 import { Role } from './role.entity';
 import { Event } from './event.entity';
 import { Person } from './person.entity';
+import { Subscription } from './subscription.entity';
 
 @Entity()
 export class User extends Person {
@@ -38,12 +39,14 @@ export class User extends Person {
     () => Event,
     event => event.users,
   )
-  @JoinTable()
   events: Event[];
+
+  @OneToMany(() => Subscription, subscription => subscription.user)
+  subscriptions: Subscription[];
 
   @OneToMany(
     () => Absence,
-    absence => absence.participant,
+    absence => absence.user,
   )
   absences: Absence[];
 

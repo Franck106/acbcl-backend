@@ -1,4 +1,5 @@
-import { Entity, ManyToOne } from 'typeorm';
+import { Entity, ManyToOne, OneToOne } from 'typeorm';
+import { Absence } from './absence.entity';
 import { Event } from './event.entity';
 import { Person } from './person.entity';
 
@@ -9,4 +10,10 @@ export class Guest extends Person {
     event => event.guests,
   )
   event: Event;
+
+  @OneToOne(
+    () => Absence,
+    absence => absence.guest,
+  )
+  absence: Absence;
 }
