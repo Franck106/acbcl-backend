@@ -1,14 +1,8 @@
-import { IEvent } from './event';
+import { IPerson } from './person';
 
-export interface IGuestResponse {
+export interface IGuestResponse extends IPerson {
   id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  birthDate: Date;
-  address: string;
-  postCode: string;
-  city: string;
-  phone: string;
-  event: IEvent;
+  createdDate: Date;
+  eventId: string;
+  absenceId?: string;
 }

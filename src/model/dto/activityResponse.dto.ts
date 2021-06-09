@@ -8,9 +8,12 @@ export class ActivityResponseDTO implements IActivityResponse {
   name: string;
   price: number;
   place: string;
+  rangeStart: Date;
+  rangeEnd: Date;
   description?: string;
   photos: PhotoDTO[];
-  events?: EventResponseDTO[];
+  eventIds: string[];
+  subscriptionIds: string[];
 
   public static from(dto: Partial<ActivityResponseDTO>) {
     return Object.assign(new ActivityResponseDTO(), dto);
@@ -22,9 +25,12 @@ export class ActivityResponseDTO implements IActivityResponse {
       name: entity.name,
       price: entity.price,
       place: entity.place,
+      rangeStart: entity.rangeStart,
+      rangeEnd: entity.rangeEnd,
       description: entity.description ? entity.description : null,
       photos: entity.photos,
-      events: entity.events ? entity.events : null,
+      eventIds: entity.events ? entity.events.map((event) => event.id) : [],
+      subscriptionIds: entity.subscriptions ? entity.subscriptions.map(sub => sub.id) : [],
     });
   }
 }

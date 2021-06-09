@@ -3,7 +3,10 @@ import { Activity } from './activity.entity';
 
 @Entity()
 export class Photo {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
   url: string;
 
   @Column({nullable: true})
@@ -12,6 +15,7 @@ export class Photo {
   @ManyToOne(
     () => Activity,
     activity => activity.photos,
+    { onDelete: "CASCADE" }
   )
   activity: Activity;
 }

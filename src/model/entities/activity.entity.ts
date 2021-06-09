@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Event } from './event.entity';
 import { Photo } from './photo.entity';
+import { Subscription } from './subscription.entity';
 
 @Entity()
 export class Activity {
@@ -20,6 +21,12 @@ export class Activity {
   @Column({ nullable: true })
   description: string;
 
+  @Column()
+  rangeStart: Date;
+
+  @Column()
+  rangeEnd: Date;
+
   @OneToMany(
     () => Event,
     event => event.activity,
@@ -32,4 +39,10 @@ export class Activity {
     { eager: true, cascade: true },
   )
   photos: Photo[];
+
+  @OneToMany(
+    () => Subscription,
+    subscription => subscription.activity,
+  )
+  subscriptions: Subscription[];
 }

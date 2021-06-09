@@ -1,13 +1,11 @@
-import { IEvent } from "@model/types/event";
-import { ActivityResponseDTO } from "./activityResponse.dto";
+import { IEventCreate } from '@model/types/eventCreate';
 
-export class EventCreateDTO implements IEvent {
+export class EventCreateDTO implements IEventCreate {
   start: Date;
   end: Date;
-  summary?: string;
+  title: string;
+  isAllDay: boolean;
   location?: string;
   description?: string;
-  colorId?: number;
-  attendees?: { email: string }[];
-  activity: ActivityResponseDTO;
+  activityId?: string;
 }

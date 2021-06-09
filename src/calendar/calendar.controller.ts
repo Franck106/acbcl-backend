@@ -1,12 +1,20 @@
-import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 
 import { EventCreateDTO } from '@model/dto/eventCreate.dto';
 import { EventResponseDTO } from '@model/dto/eventResponse.dto';
-import { GuestResponseDTO } from '@model/dto/guestResponse.dto';
-import { SubscriptionGuestDTO } from '@model/dto/subscriptionGuest.dto';
-import { SubscriptionUserDTO } from '@model/dto/subscriptionUser.dto';
-import { UserResponseDTO } from '@model/dto/userResponse.dto';
 import { CalendarService } from './calendar.service';
+import { SubscriptionCreateDTO } from '@model/dto/subscriptionCreate.dto';
+import { SubscriptionResponseDTO } from '@model/dto/subscriptionResponse.dto';
+import { GuestCreateDTO } from '@model/dto/guestCreate.dto';
+import { GuestResponseDTO } from '@model/dto/guestResponse.dto';
 
 @Controller('calendar')
 export class CalendarController {
@@ -24,18 +32,35 @@ export class CalendarController {
     return this.calendarService.createEvent(eventDTO);
   }
 
-  @Post('/user/subscription')
-  @HttpCode(200)
-  public async addSubscriptionUser(
-    @Body() subscription: SubscriptionUserDTO,
-  ): Promise<UserResponseDTO> {
-    return this.calendarService.registerUserSubsciption(subscription);
+  @Delete(':id')
+  public async deleteEvent(@Param('id') id: string) {
+    return this.calendarService.removeEvent(id);
   }
 
-  @Post('guest/subscription')
-  public async addSubscriptionGuest(
-    @Body() subscription: SubscriptionGuestDTO,
-  ): Promise<GuestResponseDTO> {
-    return this.calendarService.registerGuestSubsciption(subscription);
+  @Post('/subscription')
+  public async addSubscription(
+    @Body() dto: SubscriptionCreateDTO,
+  ): Promise<SubscriptionResponseDTO> {
+    return this.calendarService.createSubscription(dto);
+  }
+
+  @Get('subscription/:id/validate')
+  public async validateSubscription(@Param('id') id: string): Promise<EventResponseDTO[]> {
+    return this.calendarService.linkSubscriptionUserToEvents(id);
+  }
+
+  @Get('/subscription')
+  public async findAllSubscriptions(): Promise<SubscriptionResponseDTO[]> {
+    return this.calendarService.getAllSubscriptions();
+  }
+
+  @Delete('/subscription/:id')
+  public async cancelSubscription(@Param('id') id: string) {
+    return this.calendarService.removeSubscription(id);
+  }
+
+  @Post('/guest')
+  public async addGuest(@Body() dto: GuestCreateDTO): Promise<GuestResponseDTO> {
+    return this.calendarService.createGuest(dto);
   }
 }

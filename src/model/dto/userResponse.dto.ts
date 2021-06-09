@@ -12,6 +12,7 @@ export class UserResponseDTO implements IUserResponse {
   postCode: string;
   city: string;
   phone: string;
+  eventIds: string[];
 
   public static from(dto: Partial<UserResponseDTO>) {
     return Object.assign(new UserResponseDTO(), dto);
@@ -29,6 +30,7 @@ export class UserResponseDTO implements IUserResponse {
       postCode: entity.postCode,
       city: entity.city,
       phone: entity.phone,
+      eventIds: entity.events ? entity.events.map((event) => event.id) : [],
     });
   }
 }

@@ -64,4 +64,9 @@ export class UserService {
 
     return UserResponseDTO.fromEntity(user);
   }
+
+  public async getAllUsers(): Promise<UserResponseDTO[]> {
+    const users = await this.userRepository.find();
+    return users.map(user => UserResponseDTO.fromEntity(user));
+  }
 }

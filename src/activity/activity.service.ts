@@ -14,15 +14,41 @@ export class ActivityService {
   ) {}
 
   public async getAll(): Promise<ActivityResponseDTO[]> {
-    const activities = await this.activityRepository.find({
-      relations: ['events'],
+    const activities = await this.activityRepository
+      .createQueryBuilder('activity')
+      .leftJoinAndSelect('activity.photos', 'photo')
+      .leftJoinAndSelect('activity.events', 'event')
+      .leftJoinAndSelect('event.users', 'user')
+      .leftJoinAndSelect('event.guests', 'guest')
+      .getMany();
+
+    return activities.map(activity => {
+      const activityDTO = ActivityResponseDTO.fromEntity(activity);
+      return activityDTO;
     });
-    return activities.map(activityDTO =>
-      ActivityResponseDTO.fromEntity(activityDTO),
-    );
   }
 
-  public async saveOne(dto: ActivityCreateDTO): Promise<ActivityResponseDTO> {
+  public async getById(id: string): Promise<ActivityResponseDTO> {
+    const activity = await this.activityRepository
+      .createQueryBuilder('activity')
+      .leftJoinAndSelect('activity.photos', 'photo')
+      .leftJoinAndSelect('activity.events', 'event')
+      .leftJoinAndSelect('event.users', 'user')
+      .leftJoinAndSelect('event.guests', 'guest')
+      .where('activity.id = :activityId', { activityId: id })
+      .getOne();
+
+    return ActivityResponseDTO.fromEntity(activity);
+  }
+
+  public async create(dto: ActivityCreateDTO): Promise<ActivityResponseDTO> {
+    const activity = await this.activityRepository.save(
+      Object.assign(new Activity(), dto),
+    );
+    return ActivityResponseDTO.fromEntity(activity);
+  }
+
+  public async update(dto: ActivityResponseDTO): Promise<ActivityResponseDTO> {
     const activity = await this.activityRepository.save(
       Object.assign(new Activity(), dto),
     );

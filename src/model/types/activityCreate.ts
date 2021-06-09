@@ -5,5 +5,7 @@ export interface IActivityCreate {
   price: number;
   place: string;
   description?: string;
+  rangeStart: Date;
+  rangeEnd: Date;
   photos: IPhoto[];
 }
